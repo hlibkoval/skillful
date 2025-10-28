@@ -1,7 +1,9 @@
 {
   "name": "skillful",
   "version": "0.0.1",
-  "owner": "hlibkoval",
+  "owner": {
+    "name": "hlibkoval"
+  },
   "description": "Miscellaneous QOL Claude Skills Marketplace",
   "plugins": [
     {
