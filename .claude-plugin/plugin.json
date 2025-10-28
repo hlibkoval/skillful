@@ -1,0 +1,18 @@
+{
+  "name": "skillful",
+  "description": "Miscellaneous QOL Claude Skills Marketplace and Plugin",
+  "version": "0.0.1",
+  "author": {
+    "name": "hlibkoval"
+  },
+  "homepage": "https://github.com/hlibkoval/skillful",
+  "repository": "https://github.com/hlibkoval/skillful",
+  "license": "MIT",
+  "keywords": [
+    "skills",
+    "quality-of-life",
+    "productivity",
+    "workflows",
+    "claude-code"
+  ]
+}
