@@ -73,7 +73,29 @@ check_glab_installed() {
 check_auth_status() {
     print_section "Checking Authentication Status"
 
-    if ! glab auth status &> /dev/null; then
+    # Capture both stdout and stderr
+    local auth_output
+    auth_output=$(glab auth status 2>&1)
+
+    # Check if at least one instance is authenticated
+    # Look for "✓ Logged in to" or "✓ Token found" patterns
+    if echo "$auth_output" | grep -qE "(✓ Logged in to|✓ Token found)"; then
+        print_success "Authenticated with at least one GitLab instance"
+        echo ""
+
+        # Show detailed auth status
+        print_info "Authentication details:"
+        echo ""
+        echo "$auth_output" | sed 's/^/  /'
+
+        # Check if any instances failed but don't fail the whole check
+        if echo "$auth_output" | grep -qE "(X |x )"; then
+            echo ""
+            print_warning "Some GitLab instances have authentication issues (this is okay if you don't use them)"
+        fi
+
+        return 0
+    else
         print_error "Not authenticated with any GitLab instance"
         echo ""
         echo "To authenticate:"
@@ -82,16 +104,6 @@ check_auth_status() {
         echo "  • With token:        echo 'YOUR_TOKEN' | glab auth login --stdin"
         return 1
     fi
-
-    print_success "Authenticated with GitLab"
-    echo ""
-
-    # Show detailed auth status
-    print_info "Authentication details:"
-    echo ""
-    glab auth status 2>&1 | sed 's/^/  /'
-
-    return 0
 }
 
 # Detect GitLab instance from git remote
@@ -136,11 +148,24 @@ detect_instance() {
         return 0
     fi
 
+    # Check if this is actually a GitLab instance
+    if [[ "$hostname" == "github.com" ]] || [[ "$hostname" =~ ^github\. ]]; then
+        print_warning "This repository is hosted on GitHub, not GitLab"
+        echo "  • glab is for GitLab repositories only"
+        echo "  • This verification is skipped for GitHub repositories"
+        return 0
+    fi
+
     print_success "Detected GitLab instance: $hostname"
 
     # Check if authenticated with this instance
-    if glab auth status --hostname "$hostname" &> /dev/null; then
+    # Parse the output to see if this specific instance is authenticated
+    local instance_auth
+    instance_auth=$(glab auth status 2>&1)
+
+    if echo "$instance_auth" | grep -A 10 "^$hostname$" | grep -qE "✓ (Logged in to|Token found)"; then
         print_success "Authenticated with $hostname"
+        return 0
     else
         print_error "NOT authenticated with $hostname"
         echo ""
@@ -148,8 +173,6 @@ detect_instance() {
         echo "  glab auth login --hostname $hostname"
         return 1
     fi
-
-    return 0
 }
 
 # Test basic glab operation
@@ -161,6 +184,17 @@ test_glab_operation() {
         print_warning "Not in a git repository - skipping operation test"
         echo "  • Move to a GitLab repository to test operations"
         return 0
+    fi
+
+    # Check if this is a GitHub repository
+    local remote_url
+    if remote_url=$(git remote get-url origin 2>/dev/null); then
+        if [[ "$remote_url" =~ github\.com ]]; then
+            print_warning "This is a GitHub repository - skipping glab operation test"
+            echo "  • glab is for GitLab repositories only"
+            echo "  • Move to a GitLab repository to test glab operations"
+            return 0
+        fi
     fi
 
     # Try to get repository info
@@ -253,8 +287,12 @@ main() {
 
     if [[ $exit_code -eq 0 ]]; then
         print_success "All checks passed! glab is properly configured and authenticated."
+        echo ""
+        echo "Authentication Status: Verified"
     else
         print_error "Some checks failed. See above for details and troubleshooting steps."
+        echo ""
+        echo "Authentication Status: Not Authenticated"
     fi
 
     echo ""
