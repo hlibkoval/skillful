@@ -35,6 +35,33 @@ Both methods give you access to all skills, commands, and agents included in ski
 - **Commands** (`commands/`) - User-invoked slash commands (e.g., `/skillful:command-name`)
 - **Agents** (`agents/`) - Specialized agent definitions for specific tasks
 
+### Available Skills
+
+#### GitLab (`skills/gitlab/`)
+
+Comprehensive GitLab workflow automation using the `glab` CLI tool. Automatically activated when working with GitLab repositories.
+
+**Features:**
+- Merge request creation and management (create, review, approve, merge)
+- Issue tracking and project management
+- CI/CD pipeline monitoring and debugging
+- Release management
+- Multi-instance support (GitLab.com and self-managed)
+- Authentication verification and troubleshooting
+- GitLab Duo AI integration
+
+**Bundled Resources:**
+- `references/glab-commands.md` - Comprehensive command reference
+- `references/workflows.md` - Step-by-step workflow guides
+- `scripts/verify-glab-auth.sh` - Authentication verification script
+
+**When it activates:**
+- Creating or reviewing merge requests
+- Managing GitLab issues
+- Checking pipeline status
+- Configuring glab authentication
+- Working with GitLab releases
+
 ## Usage
 
 After installation:
