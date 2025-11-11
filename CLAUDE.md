@@ -146,7 +146,7 @@ Scripts in `scripts/` directories should be:
 
 ## Version Management
 
-Current version: **0.0.1** (defined in both plugin.json and marketplace.json)
+Current version: **0.0.2** (defined in both plugin.json and marketplace.json)
 
 When updating versions:
 1. Update `version` in `.claude-plugin/plugin.json`
@@ -175,6 +175,28 @@ git push
 Claude Code scans these directories and loads resources based on naming conventions and frontmatter metadata.
 
 ## Current Skills
+
+### Claude Code (`skills/claude-code/`)
+
+Comprehensive Claude Code CLI and configuration assistant.
+
+**Structure**:
+- `SKILL.md` - Core capabilities overview with practical examples
+- `references/cli-reference.md` - Complete CLI commands and flags reference
+- `references/mcp-servers.md` - MCP server configuration and examples
+- `references/configuration.md` - Settings files with executable bash examples
+- `references/plugins-and-skills.md` - Plugin and skill development guides
+- `references/hooks.md` - Hook system patterns and examples
+- `references/troubleshooting.md` - Common issues and solutions
+- `references/best-practices.md` - Recommended workflows and optimization
+
+**Key patterns demonstrated**:
+- Capabilities-based structure for integrated systems
+- Actionable configuration (executable bash commands)
+- Comprehensive reference documentation (~20k words)
+- Self-configuration capability (Claude configuring itself)
+
+**Activation triggers**: Claude Code CLI questions, configuration, MCP servers, plugins, skills, hooks, troubleshooting
 
 ### GitLab (`skills/gitlab/`)
 
