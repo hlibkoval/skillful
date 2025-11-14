@@ -1,6 +1,6 @@
 ---
 name: gitlab
-description: Use this skill to create, view, and manage GitLab merge requests (MRs), issues, CI/CD pipelines, and releases. Supports working with MR diffs, notes, threads, pipeline status, and job logs using the glab CLI tool for both GitLab.com and self-managed instances.
+description: Use this skill to create, view, and manage GitLab merge requests (MRs), issues, CI/CD pipelines, and releases, or to use glab CLI. Supports working with MR diffs, notes, threads, pipeline status, and job logs using the glab CLI tool for both GitLab.com and self-managed instances.
 ---
 
 # GitLab Workflow with glab CLI
