@@ -1,7 +1,7 @@
 {
   "name": "skillful",
   "description": "Miscellaneous QOL Claude Skills for productivity and workflow improvements. Includes claude-code skill for Claude Code CLI assistance and gitlab skill for GitLab workflows.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": {
     "name": "hlibkoval"
   },
